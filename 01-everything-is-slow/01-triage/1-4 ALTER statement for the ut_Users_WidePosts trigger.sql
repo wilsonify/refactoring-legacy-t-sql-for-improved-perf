@@ -1,13 +1,3 @@
-/* Listing 1-1: command to set STATISTICS TIME and IO on */
-
-SET STATISTICS TIME, IO ON;
-
-/* Listing 1-2: Code to update the display name of user "stic" */
-
-UPDATE Users
-SET DisplayName = 'stic in mud'
-WHERE Id = 31996;
-
 /* Listing 1-4: ALTER statement for the ut_Users_WidePosts trigger */
 
 /**************************************************************
@@ -78,35 +68,3 @@ OR i.WebsiteUrl <> wp.WebsiteUrl;
 END;
 END;
 GO
-
-/* Listing 1-5: Updating the display name for User ID 22656 */
-
-UPDATE Users
-SET DisplayName = 'Rita Skeeter'
-WHERE Id = 22656;
-
-/* Listing 1-6: CREATE statement for index on WidePosts table */
-
-IF NOT EXISTS (SELECT 1
-    FROM sys.indexes 
-    WHERE object_id = OBJECT_ID('dbo.WidePosts')
-    AND name='ix_Posts_ownerUserID')
-BEGIN	
-CREATE NONCLUSTERED INDEX IX_WidePosts_OwnerUserID
-  ON dbo.WidePosts (OwnerUserID);
-END;
-GO
-
-/* Listing 1-7: Reset of User displayname for “stic” */
-
-UPDATE Users
-SET DisplayName = 'stic'
-WHERE Id = 31996;
-
-/* Listing 1-8: UPDATE user with many WidePosts rows */
-
-UPDATE Users
-SET DisplayName = 'Jon Skeet'
-WHERE Id = 22656;
-
-

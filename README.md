@@ -7,6 +7,9 @@ This repository accompanies [*Refactoring Legacy T-SQL for Improved Performance*
 
 Download the files as a zip using the green button, or clone the repository to your machine using Git.
 
+# bootstrap
+
+
 ## Releases
 
 Release v1.0 corresponds to the code in the published book, without corrections or updates.

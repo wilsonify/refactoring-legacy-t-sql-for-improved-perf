@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  mssqldb:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    volumes:
+      - /mnt/seagate02/data/StackOverflow2010/working:/stackoverflowdb
+    ports:
+      - 1433:1433
+    environment:
+      SA_PASSWORD: "Your_password123"
+      ACCEPT_EULA: "Y"
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$$SA_PASSWORD" -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  init:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    volumes:
+      - /mnt/seagate02/data/StackOverflow2010/working:/stackoverflowdb
+    environment:
+      SA_PASSWORD: "Your_password123"
+      ACCEPT_EULA: "Y"
+    depends_on:
+      mssqldb:
+        condition: service_healthy
+    entrypoint: /opt/mssql-tools/bin/sqlcmd
+    command: -U sa -P $SA_PASSWORD -Q " CREATE DATABASE [stackoverflowdb] ON (FILENAME ='/stackoverflowdb/StackOverflow2010.mdf'), (FILENAME = '/stackoverflowdb/StackOverflow2010_log.ldf') FOR ATTACH "
