@@ -5,10 +5,11 @@ services:
     volumes:
       - /mnt/seagate02/data/StackOverflow2010/working:/stackoverflowdb
     ports:
-      - 1433:1433
+      - "1433:1433"
     environment:
       SA_PASSWORD: "Your_password123"
       ACCEPT_EULA: "Y"
+    restart: unless-stopped
     healthcheck:
       test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$$SA_PASSWORD" -Q "SELECT 1" || exit 1
       interval: 10s
